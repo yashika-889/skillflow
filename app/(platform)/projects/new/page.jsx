@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import dynamic from 'next/dynamic';
+import 'react-quill/dist/quill.snow.css';
 import { 
   Plus, 
   Trash2, 
@@ -15,6 +17,9 @@ import {
   Settings2
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+
+// --- Dynamically import ReactQuill to avoid SSR issues ---
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 // --- Main Page Component ---
 
@@ -161,22 +166,31 @@ export default function CreateProjectPage() {
           </FormInput>
 
           <FormInput label="Description">
-            <div className="relative">
-              <textarea
+            <div className="relative quill-container">
+              <ReactQuill
+                theme="snow"
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="input-field min-h-[150px]"
+                onChange={setDescription}
                 placeholder="Describe your project in detail..."
-                required
+                className="bg-neutral-900 border border-neutral-700 rounded-lg text-white quill-editor"
+                modules={{
+                  toolbar: [
+                    [{ 'header': [1, 2, false] }],
+                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                    [{'list': 'ordered'}, {'list': 'bullet'}],
+                    ['link', 'code-block'],
+                    ['clean']
+                  ],
+                }}
               />
-              <button 
-                type="button" 
-                className="absolute top-2 right-2 text-xs bg-primary/20 text-primary hover:bg-primary/30 font-medium py-1 px-2 rounded-md flex items-center"
+              <button
+                type="button"
+                className="absolute top-2 right-2 z-10 text-xs bg-primary/20 text-primary hover:bg-primary/30 font-medium py-1 px-2 rounded-md flex items-center"
               >
                 <BrainCircuit className="w-4 h-4 mr-1" /> AI Assist
               </button>
             </div>
-            <p className="text-xs text-gray-400 mt-1">Supports Markdown for formatting.</p>
+            <p className="text-xs text-neutral-400 mt-1">Supports basic formatting.</p>
           </FormInput>
         </FormSection>
 

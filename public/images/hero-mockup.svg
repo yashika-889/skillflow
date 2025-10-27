@@ -1,0 +1,55 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="400" fill="#1a1a1a" rx="8"/>
+  
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="24" font-weight="bold">Escrow Flow</text>
+  
+  <!-- Flow Diagram -->
+  <!-- Client Box -->
+  <rect x="50" y="100" width="150" height="80" fill="#3b82f6" rx="8" opacity="0.9"/>
+  <text x="125" y="135" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="16" font-weight="bold">Client</text>
+  <text x="125" y="155" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="12">Posts Project</text>
+  
+  <!-- Arrow 1 -->
+  <path d="M 200 140 L 250 140" stroke="#ffffff" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Escrow Box -->
+  <rect x="260" y="100" width="150" height="80" fill="#10b981" rx="8" opacity="0.9"/>
+  <text x="335" y="135" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="16" font-weight="bold">Escrow</text>
+  <text x="335" y="155" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="12">Funds Locked</text>
+  
+  <!-- Arrow 2 -->
+  <path d="M 410 140 L 460 140" stroke="#ffffff" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Freelancer Box -->
+  <rect x="470" y="100" width="150" height="80" fill="#8b5cf6" rx="8" opacity="0.9"/>
+  <text x="545" y="135" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="16" font-weight="bold">Freelancer</text>
+  <text x="545" y="155" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="12">Delivers Work</text>
+  
+  <!-- Arrow 3 (Down) -->
+  <path d="M 545 180 L 545 240" stroke="#ffffff" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Approval Box -->
+  <rect x="470" y="250" width="150" height="80" fill="#f59e0b" rx="8" opacity="0.9"/>
+  <text x="545" y="285" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="16" font-weight="bold">Approval</text>
+  <text x="545" y="305" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="12">Client Approves</text>
+  
+  <!-- Arrow 4 (Up) -->
+  <path d="M 335 250 L 335 190" stroke="#ffffff" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Payment Release Box -->
+  <rect x="470" y="350" width="150" height="30" fill="#ef4444" rx="8" opacity="0.9"/>
+  <text x="545" y="370" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="14" font-weight="bold">Instant Payment!</text>
+  
+  <!-- Arrow definitions -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#ffffff"/>
+    </marker>
+  </defs>
+  
+  <!-- Bottom text -->
+  <text x="400" y="390" text-anchor="middle" fill="#9ca3af" font-family="Arial, sans-serif" font-size="14">Automated • Secure • Instant</text>
+</svg>
+

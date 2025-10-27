@@ -14,10 +14,10 @@ import {
 } from "lucide-react";
 
 // We are now USING the modals we built earlier
-import FundEscrowModal from "@/components/project/FundEscrowModal";
-import ReleasePaymentModal from "@/components/project/ReleasePaymentModal";
+import FundEscrowModal from "@/components/projects/FundEscrowModal";
+import ReleasePaymentModal from "@/components/projects/ReleasePaymentModal";
 // This is a NEW component we will create next
-import MilestoneCard from "@/components/project/MilestoneCard";
+import MilestoneCard from "@/components/projects/MilestoneCard";
 
 
 // --- Placeholder Data ---
