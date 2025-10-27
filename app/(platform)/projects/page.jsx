@@ -11,10 +11,10 @@ import FreelancerCard from "@/components/projects/FreelancerCard";
 
 // --- Placeholder Data ---
 const projects = [
-  { id: 1, title: "Smart Contract Audit for DeFi", skills: ["Solidity", "Security", "Audit"], rating: 4.9, reviews: 78, price: "Fixed: $5,000", success: "98%", completed: 32, nftBadges: 3, verified: true },
-  { id: 2, title: "Web3 Landing Page (Glassmorphism)", skills: ["React", "Next.js", "Framer Motion"], rating: 5.0, reviews: 112, price: "$75/hr", success: "100%", completed: 51, nftBadges: 5, verified: true },
-  { id: 3, title: "Develop DAO Voting Mechanism", skills: ["Cadence", "Flow", "DAO"], rating: 4.8, reviews: 45, price: "Fixed: $3,500", success: "95%", completed: 20, nftBadges: 2, verified: false },
-  { id: 4, title: "NFT Rarity Trait Generator", skills: ["JavaScript", "IPFS", "Metadata"], rating: 4.7, reviews: 90, price: "$60/hr", success: "97%", completed: 40, nftBadges: 1, verified: true },
+  { id: 1, title: "Smart Contract Audit for DeFi", skills: ["Solidity", "Security", "Audit"], rating: 4.9, reviews: 78, price: "Fixed: $5,000", success: "98%", completed: 32, nftBadges: 3, verified: true, image: "https://picsum.photos/seed/project1/400/300" },
+  { id: 2, title: "Web3 Landing Page (Glassmorphism)", skills: ["React", "Next.js", "Framer Motion"], rating: 5.0, reviews: 112, price: "$75/hr", success: "100%", completed: 51, nftBadges: 5, verified: true, image: "https://picsum.photos/seed/project2/400/300" },
+  { id: 3, title: "Develop DAO Voting Mechanism", skills: ["Cadence", "Flow", "DAO"], rating: 4.8, reviews: 45, price: "Fixed: $3,500", success: "95%", completed: 20, nftBadges: 2, verified: false, image: "https://picsum.photos/seed/project3/400/300" },
+  { id: 4, title: "NFT Rarity Trait Generator", skills: ["JavaScript", "IPFS", "Metadata"], rating: 4.7, reviews: 90, price: "$60/hr", success: "97%", completed: 40, nftBadges: 1, verified: true, image: "https://picsum.photos/seed/project4/400/300" },
 ];
 
 const freelancers = [

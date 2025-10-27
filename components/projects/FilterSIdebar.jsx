@@ -70,10 +70,12 @@ export default function FilterSidebar() {
       <CollapsibleSection title="Skills">
         <div className="flex flex-wrap gap-2">
           {skills.map(skill => (
-            <button key={skill} className="text-xs font-medium bg-gray-700/50 hover:bg-gray-700 px-3 py-1.5 rounded-full transition-colors">
+            <button key={skill} className="text-xs font-medium bg-neutral-700/50 hover:bg-neutral-700 hover:text-white px-3 py-1.5 rounded-full transition-colors duration-150">
               {skill}
             </button>
           ))}
+          {/* Add Input for more skills */}
+          <input type="text" placeholder="+ Add skill" className="bg-transparent text-xs outline-none w-20 px-2 placeholder:text-neutral-500" />
         </div>
       </CollapsibleSection>
       
@@ -90,7 +92,7 @@ export default function FilterSidebar() {
       <CollapsibleSection title="Reputation">
         <div className="flex space-x-2">
           {[5, 4, 3, 2, 1].map(rating => (
-            <button key={rating} className="flex items-center gap-1 text-sm bg-gray-700/50 hover:bg-gray-700 px-3 py-1.5 rounded-full transition-colors">
+            <button key={rating} className="flex items-center gap-1 text-sm bg-neutral-700/50 hover:bg-neutral-700 hover:text-white px-3 py-1.5 rounded-full transition-colors duration-150">
               <Star className="w-4 h-4 text-yellow-400" /> {rating}+
             </button>
           ))}
@@ -115,23 +117,23 @@ export default function FilterSidebar() {
 // --- Sidebar Sub-Components ---
 function FilterCheckbox({ label }) {
   return (
-    <label className="flex items-center space-x-3">
-      <input type="checkbox" className="h-4 w-4 rounded bg-gray-700 border-gray-600 text-primary focus:ring-primary" />
-      <span className="text-sm text-gray-300">{label}</span>
+    <label className="flex items-center space-x-3 group cursor-pointer hover:bg-neutral-700/30 px-2 py-1 rounded-md transition-colors duration-150">
+      <input type="checkbox" className="h-4 w-4 rounded bg-neutral-700 border-neutral-600 text-primary focus:ring-primary focus:ring-offset-neutral-900" />
+      <span className="text-sm text-neutral-300 group-hover:text-white">{label}</span>
     </label>
   );
 }
 
 function FilterToggle({ label, icon = null }) {
   return (
-    <label className="flex items-center justify-between cursor-pointer">
-      <span className="flex items-center gap-2 text-sm text-gray-300">
+    <label className="flex items-center justify-between cursor-pointer group hover:bg-neutral-700/30 px-2 py-1 rounded-md transition-colors duration-150">
+      <span className="flex items-center gap-2 text-sm text-neutral-300 group-hover:text-white">
         {icon}
         {label}
       </span>
       <div className="relative">
         <input type="checkbox" className="sr-only peer" />
-        <div className="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:bg-primary transition-colors peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+        <div className="w-11 h-6 bg-neutral-600 rounded-full peer peer-checked:bg-primary transition-colors peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
       </div>
     </label>
   );
