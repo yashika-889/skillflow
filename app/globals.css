@@ -1,0 +1,57 @@
+/* 1. Import Google Fonts (Inter & JetBrains Mono) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono:wght@400&display=swap');
+
+/* 2. Tailwind Directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 3. Base Body Styles */
+@layer base {
+  body {
+    @apply bg-neutral-900 text-neutral-200 antialiased;
+  }
+}
+
+/* 4. Reusable Components (@layer) */
+@layer components {
+  /* The main Glassmorphism card style */
+  .card-glass {
+    @apply bg-neutral-800/50 backdrop-blur-lg border border-neutral-700/50 rounded-2xl shadow-lg p-6;
+  }
+  
+  /* The standard input field style */
+  .input-field {
+    @apply w-full px-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors;
+  }
+  
+  /* The card style for onboarding choices */
+  .action-card {
+    @apply flex items-start w-full p-5 text-left bg-neutral-700/50 rounded-xl border border-neutral-600/50 hover:bg-neutral-700 hover:border-primary transition-all duration-200 space-x-4;
+  }
+
+  /* 3D Flip CSS for NFT Cards (Component 7) */
+  .flip-card {
+    perspective: 1000px;
+  }
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+  .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+  .flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .flip-card-back {
+    transform: rotateY(180deg);
+  }
+}
