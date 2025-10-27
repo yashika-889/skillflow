@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { ArrowUpRight, Copy, DollarSign, ListChecks, Star, Zap } from "lucide-react";
 
 // Placeholder data
@@ -23,33 +24,114 @@ const activities = [
   { id: 3, text: "Milestone 2 approved for 'NFT Badges'", time: "1 day ago" },
 ];
 
+function ProjectCard({ project }) {
+  const getStatusColor = (status) => {
+    if (status === "In Progress") return "bg-secondary/20 text-secondary";
+    if (status === "In Review") return "bg-yellow-500/20 text-yellow-400";
+    return "bg-gray-600/20 text-gray-300";
+  };
+  
+  return (
+    <div className="bg-gray-800/50 backdrop-blur-lg border border-gray-700/50 rounded-2xl p-5 hover:border-primary transition-all shadow-lg">
+      <div className="flex justify-between items-start">
+        <div>
+          <h3 className="text-lg font-semibold text-white truncate w-60 md:w-full">{project.title}</h3>
+          <p className="text-sm text-gray-400">with {project.otherParty}</p>
+        </div>
+        <span className={`text-xs font-medium px-2 py-1 rounded-full ${getStatusColor(project.status)}`}>
+          {project.status}
+        </span>
+      </div>
+      <div className="mt-4">
+        <div className="flex justify-between text-sm text-gray-400 mb-1">
+          <span>Progress</span>
+          <span>{project.progress}%</span>
+        </div>
+        <div className="w-full bg-gray-700 rounded-full h-2">
+          <div className="bg-primary h-2 rounded-full" style={{ width: `${project.progress}%` }}></div>
+        </div>
+      </div>
+      <div className="mt-5 text-right">
+        <button className="bg-primary hover:bg-primary/90 text-white font-medium py-2 px-4 rounded-lg text-sm">
+          {project.action}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function QuickActionCard({ icon, title, subtitle }) {
+  return (
+    <button className="w-full flex items-center p-4 bg-gray-800/50 backdrop-blur-lg border border-gray-700/50 rounded-2xl hover:border-secondary transition-all text-left">
+      <div className="p-3 bg-gray-700/50 rounded-lg mr-4">
+        {icon}
+      </div>
+      <div>
+        <p className="text-md font-semibold text-white">{title}</p>
+        <p className="text-sm text-gray-400">{subtitle}</p>
+      </div>
+    </button>
+  );
+}
+
+function EmptyState() {
+  return (
+    <div className="text-center py-12">
+      <p className="text-gray-400">No projects found</p>
+    </div>
+  );
+}
+
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("freelancer");
 
   return (
-    <div className="space-y-8 pb-16 md:pb-0"> {/* Add padding for mobile nav */}
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="space-y-8 pb-16 md:pb-0"
+    >
+      {/* Welcome Section */}
+      <motion.div 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="mb-8"
+      >
+        <h1 className="text-4xl font-bold text-white mb-2">Welcome back, User!</h1>
+        <p className="text-gray-400">Here's what's happening with your projects today.</p>
+      </motion.div>
       
-      {/* --- Top Stats Bar --- */}
+      {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat) => (
-          <div key={stat.name} className="bg-gray-800/50 backdrop-blur-lg border border-gray-700/50 rounded-2xl p-5 shadow-lg">
+        {stats.map((stat, index) => (
+          <motion.div
+            key={stat.name}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+            className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-lg border border-gray-700/50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:scale-105 cursor-pointer"
+          >
             <p className="text-sm font-medium text-gray-400">{stat.name}</p>
-            <div className="flex items-baseline space-x-2 mt-1">
-              <span className="text-3xl font-bold text-white">{stat.value}</span>
+            <div className="flex items-baseline space-x-2 mt-2">
+              <span className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
+                {stat.value}
+              </span>
               {stat.unit && <span className="text-sm text-gray-300">{stat.unit}</span>}
             </div>
             {stat.trend && (
-              <div className="flex items-center text-xs text-accent mt-2">
+              <div className="flex items-center text-xs text-green-400 mt-2">
                 <ArrowUpRight className="w-4 h-4" />
                 <span>{stat.trend} from last month</span>
               </div>
             )}
-          </div>
+          </motion.div>
         ))}
       </div>
 
+      {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* --- Active Projects (Main Column) --- */}
+        {/* Active Projects Column */}
         <div className="lg:col-span-2 space-y-6">
           <h2 className="text-2xl font-bold text-white">Active Projects</h2>
           
@@ -57,13 +139,17 @@ export default function Dashboard() {
           <div className="flex space-x-1 bg-gray-900/50 p-1 rounded-lg max-w-xs">
             <button
               onClick={() => setActiveTab("freelancer")}
-              className={`w-full py-2 rounded-md text-sm font-medium ${activeTab === 'freelancer' ? 'bg-primary text-white' : 'text-gray-400 hover:bg-gray-700/50'}`}
+              className={`w-full py-2 rounded-md text-sm font-medium ${
+                activeTab === 'freelancer' ? 'bg-primary text-white' : 'text-gray-400 hover:bg-gray-700/50'
+              }`}
             >
               As Freelancer
             </button>
             <button
               onClick={() => setActiveTab("client")}
-              className={`w-full py-2 rounded-md text-sm font-medium ${activeTab === 'client' ? 'bg-primary text-white' : 'text-gray-400 hover:bg-gray-700/50'}`}
+              className={`w-full py-2 rounded-md text-sm font-medium ${
+                activeTab === 'client' ? 'bg-primary text-white' : 'text-gray-400 hover:bg-gray-700/50'
+              }`}
             >
               As Client
             </button>
@@ -81,9 +167,8 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* --- Sidebar Column --- */}
+        {/* Sidebar Column */}
         <div className="lg:col-span-1 space-y-8">
-          
           {/* Quick Actions */}
           <div className="space-y-4">
             <h2 className="text-2xl font-bold text-white">Quick Actions</h2>
@@ -94,8 +179,7 @@ export default function Dashboard() {
             />
             <QuickActionCard
               icon={<Copy className="w-6 h-6 text-accent" />}
-              title="Refer & Earn 5%
-"
+              title="Refer & Earn 5%"
               subtitle="Copy your referral link"
             />
           </div>
@@ -119,7 +203,7 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

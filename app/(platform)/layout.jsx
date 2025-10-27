@@ -1,6 +1,15 @@
 import Sidebar from "@/components/platform/Sidebar";
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export default function PlatformLayout({ children }) {
+  const cookieStore = cookies();
+  const authToken = cookieStore.get('auth-token');
+
+  if (!authToken) {
+    redirect('/login');
+  }
+
   return (
     <div className="min-h-screen bg-neutral-900 text-white flex">
       {/* --- Desktop Sidebar --- */}
