@@ -1,21 +1,26 @@
-/** @type {import('next').NextConfig} */
+// @ts-check
+
+/**
+ * @type {import('next').NextConfig}
+ **/
 const nextConfig = {
-    // Set to false to avoid double-renders in development,
-    // which can be confusing with wallet popups.
+    // Keep this if you want to allow warnings/double-renders in dev
     reactStrictMode: false, 
-  
     images: {
-      remotePatterns: [
-        {
-          protocol: 'https',
-          hostname: 'api.dicebear.com',
-        },
-        {
-          protocol: 'https',
-          hostname: 'picsum.photos',
-        }
-      ],
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'api.dicebear.com', // Dicebear is now a separate, valid object
+            },
+            {
+                protocol: 'https',
+                hostname: 'picsum.photos',
+            }
+            // If you had a third pattern that was supposed to be '*' 
+            // but resulted in the syntax error, it's safer to just list 
+            // the specific hosts like above.
+        ],
     },
-  };
-  
+};
+
 export default nextConfig;

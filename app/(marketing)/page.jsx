@@ -1,10 +1,10 @@
 "use client";
 
-import { useRef, useCallback } from "react"; // Added useCallback
+import { useRef, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
-import Link from "next/link"; // Added Link
-import Particles from "react-tsparticles"; // Added Particles
-import { loadSlim } from "tsparticles-slim"; // Added particle engine loader
+import Link from "next/link";
+import { Particles } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
 import {
   Briefcase,
   ShieldCheck,
