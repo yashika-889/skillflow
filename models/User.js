@@ -42,6 +42,10 @@ const userSchema = new mongoose.Schema({
   lastLogin: {
     type: Date,
   },
+  onboardingComplete: {
+    type: Boolean,
+    default: false
+  },
 });
 
 // Hash password before saving

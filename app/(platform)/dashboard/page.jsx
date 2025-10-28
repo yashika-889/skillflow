@@ -24,63 +24,7 @@ const activities = [
   { id: 3, text: "Milestone 2 approved for 'NFT Badges'", time: "1 day ago" },
 ];
 
-function ProjectCard({ project }) {
-  const getStatusColor = (status) => {
-    if (status === "In Progress") return "bg-secondary/20 text-secondary";
-    if (status === "In Review") return "bg-yellow-500/20 text-yellow-400";
-    return "bg-gray-600/20 text-gray-300";
-  };
-  
-  return (
-    <div className="bg-gray-800/50 backdrop-blur-lg border border-gray-700/50 rounded-2xl p-5 hover:border-primary transition-all shadow-lg">
-      <div className="flex justify-between items-start">
-        <div>
-          <h3 className="text-lg font-semibold text-white truncate w-60 md:w-full">{project.title}</h3>
-          <p className="text-sm text-gray-400">with {project.otherParty}</p>
-        </div>
-        <span className={`text-xs font-medium px-2 py-1 rounded-full ${getStatusColor(project.status)}`}>
-          {project.status}
-        </span>
-      </div>
-      <div className="mt-4">
-        <div className="flex justify-between text-sm text-gray-400 mb-1">
-          <span>Progress</span>
-          <span>{project.progress}%</span>
-        </div>
-        <div className="w-full bg-gray-700 rounded-full h-2">
-          <div className="bg-primary h-2 rounded-full" style={{ width: `${project.progress}%` }}></div>
-        </div>
-      </div>
-      <div className="mt-5 text-right">
-        <button className="bg-primary hover:bg-primary/90 text-white font-medium py-2 px-4 rounded-lg text-sm">
-          {project.action}
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function QuickActionCard({ icon, title, subtitle }) {
-  return (
-    <button className="w-full flex items-center p-4 bg-gray-800/50 backdrop-blur-lg border border-gray-700/50 rounded-2xl hover:border-secondary transition-all text-left">
-      <div className="p-3 bg-gray-700/50 rounded-lg mr-4">
-        {icon}
-      </div>
-      <div>
-        <p className="text-md font-semibold text-white">{title}</p>
-        <p className="text-sm text-gray-400">{subtitle}</p>
-      </div>
-    </button>
-  );
-}
-
-function EmptyState() {
-  return (
-    <div className="text-center py-12">
-      <p className="text-gray-400">No projects found</p>
-    </div>
-  );
-}
+// NOTE: Removed the first duplicate definitions of ProjectCard, QuickActionCard, and EmptyState here.
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("freelancer");
@@ -207,7 +151,7 @@ export default function Dashboard() {
   );
 }
 
-// --- Sub-Components for the Dashboard Page ---
+{/* --- Sub-Components for the Dashboard Page --- */}
 
 function ProjectCard({ project }) {
   const getStatusColor = (status) => {

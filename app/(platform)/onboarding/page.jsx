@@ -42,11 +42,27 @@ export default function OnboardingPage() {
   const nextStep = () => setStep((prev) => (prev < STEPS ? prev + 1 : prev));
   const prevStep = () => setStep((prev) => (prev > 1 ? prev - 1 : prev));
 
-  // --- UPDATED: This function now sets the completion state ---
-  const onCompleteOnboarding = () => {
-    console.log("Onboarding complete! Saving profile...");
-    // Instead of redirecting immediately, set the state
-    setIsComplete(true);
+  // Complete onboarding and update user status
+  const onCompleteOnboarding = async () => {
+    try {
+      const response = await fetch('/api/user/complete-onboarding', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to complete onboarding');
+      }
+
+      setIsComplete(true);
+      setTimeout(() => {
+        router.push('/(platform)/dashboard');
+      }, 3000); // Give time for confetti animation
+    } catch (error) {
+      console.error('Error completing onboarding:', error);
+    }
   };
 
   const variants = {

@@ -30,23 +30,51 @@ export default function LoginPage() {
         throw new Error('Passwords do not match');
       }
 
+      console.log('Starting authentication process...');
       const endpoint = activeTab === 'login' ? '/api/auth/login' : '/api/auth/signup';
+      console.log('Sending request to:', endpoint);
+      
+      const requestData = activeTab === 'login' 
+        ? { email: formData.email, password: formData.password }
+        : { email: formData.email, password: formData.password, name: formData.name };
+      
+      console.log('Request data:', { ...requestData, password: '***' });
+      
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(requestData),
       });
 
       const data = await response.json();
+      console.log('Response data:', data);
 
       if (!response.ok) {
+        console.error('Authentication failed:', data);
         throw new Error(data.message || `${activeTab === 'login' ? 'Login' : 'Signup'} failed`);
       }
 
-      // Redirect to dashboard on success
-      router.push('/dashboard');
+      console.log('Authentication successful, preparing redirect...');
+      // Handle redirections differently for login and signup
+      if (activeTab === 'login') {
+        // For login, go to dashboard if onboarding is complete, otherwise to onboarding
+        if (data.success) {
+          router.refresh(); // Refresh to update auth state
+          router.push(data.onboardingComplete ? '/dashboard' : '/onboarding');
+        } else {
+          throw new Error(data.message || 'Login failed');
+        }
+      } else {
+        // For signup, always go to onboarding
+        if (data.success) {
+          router.refresh(); // Refresh to update auth state
+          router.push('/onboarding');
+        } else {
+          throw new Error(data.message || 'Signup failed');
+        }
+      }
     } catch (err) {
       setError(err.message);
     } finally {
@@ -210,10 +238,10 @@ export default function LoginPage() {
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                     </svg>
-                    <span>Signing in...</span>
+                    <span>{activeTab === 'login' ? 'Signing in...' : 'Creating account...'}</span>
                   </div>
                 ) : (
-                  'Sign in'
+                  activeTab === 'login' ? 'Sign in' : 'Sign up'
                 )}
               </Button>
             </form>
@@ -221,6 +249,5 @@ export default function LoginPage() {
         </Card>
       </motion.div>
     </div>
-
   );
 }

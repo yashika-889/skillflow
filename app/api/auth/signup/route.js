@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
-import connectDB from '@/lib/db';
+import connectDB from '../../../../lib/db.js';
 import User from '@/models/User';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
@@ -29,9 +29,13 @@ export async function POST(request) {
 
     await user.save();
 
-    // Create JWT token
+    // Create JWT token with explicit onboarding status for new users
     const token = jwt.sign(
-      { userId: user._id, email: user.email },
+      { 
+        userId: user._id, 
+        email: user.email,
+        onboardingComplete: false // Always false for new users
+      },
       JWT_SECRET,
       { expiresIn: '7d' }
     );
@@ -45,7 +49,13 @@ export async function POST(request) {
       maxAge: 7 * 24 * 60 * 60 // 7 days
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ 
+      success: true,
+      onboardingComplete: false,
+      userId: user._id,
+      name: user.name,
+      email: user.email
+    });
   } catch (error) {
     console.error('Signup error:', error);
     return NextResponse.json(

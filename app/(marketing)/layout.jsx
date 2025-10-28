@@ -26,7 +26,7 @@ function Header() {
         <div className="flex items-center gap-4">
           <WalletConnect />
           <Link 
-            href="/onboarding" 
+            href="/login" 
             className="text-sm font-medium text-white bg-primary hover:bg-primary/90 px-4 py-2 rounded-lg"
           >
             Sign Up
