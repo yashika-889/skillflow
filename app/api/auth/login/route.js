@@ -4,8 +4,7 @@ import jwt from 'jsonwebtoken';
 import connectDB from '../../../../lib/db.js';
 import User from '@/models/User';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
-
+const JWT_SECRET = process.env.JWT_SECRET;
 export async function POST(request) {
   try {
     console.log('Attempting to connect to database...');

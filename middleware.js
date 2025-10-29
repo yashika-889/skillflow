@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
-
+const JWT_SECRET = process.env.JWT_SECRET;
 export async function middleware(request) {
   const token = request.cookies.get('auth-token');
   const { pathname } = request.nextUrl;
