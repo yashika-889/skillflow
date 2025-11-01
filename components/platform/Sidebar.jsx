@@ -50,77 +50,73 @@ export default function Sidebar() {
     ? `${user.addr.substring(0, 6)}...${user.addr.substring(user.addr.length - 4)}`
     : "Not Connected";
 
-  return (
-    <div className="flex flex-col h-full bg-neutral-800/50 backdrop-blur-lg border-r border-neutral-700/50">
-      
-      {/* Logo/Header */}
-      <div className="flex items-center justify-center px-6 py-5 border-b border-neutral-700/50">
-        <Link href="/" className="text-2xl font-bold text-white flex items-center">
-          <Briefcase className="w-7 h-7 text-primary mr-2" />
-          SkillFlow
-        </Link>
-      </div>
+return (
+  <div className="flex flex-col h-full w-64 bg-[#0b0f19] border-r border-neutral-800">
+    
+    {/* Logo/Header */}
+    <div className="flex items-center gap-2 px-6 py-5 border-b border-neutral-800">
+      <Briefcase className="w-6 h-6 text-indigo-400" />
+      <Link href="/" className="text-xl font-semibold text-white tracking-wide">
+        SkillFlow
+      </Link>
+    </div>
 
-      <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
-        
-        {/* Avatar & Name */}
-        <div className="flex-shrink-0 flex flex-col items-center px-4">
-          <Link href="/profile/me" className="flex flex-col items-center group">
-            <Image
-              className="h-20 w-20 rounded-full group-hover:ring-2 group-hover:ring-primary transition-all"
-              src={avatarUrl}
-              alt="User Avatar"
-              width={80}
-              height={80}
-            />
-            <span className="mt-3 text-sm font-medium text-white font-mono bg-neutral-900/50 px-3 py-1 rounded-lg group-hover:text-primary transition-all">
-              {displayName}
-            </span>
-          </Link>
-          <span className="mt-2">
-            <FlowBalance />
-          </span>
-          <span className="text-sm text-neutral-400">
-            ~ $0.00 USD
-          </span>
-        </div>
+    {/* User section */}
+    <div className="flex flex-col items-center mt-6">
+      <Image
+        className="h-16 w-16 rounded-full ring-2 ring-indigo-500/40 shadow-lg"
+        src={avatarUrl}
+        alt="User Avatar"
+        width={64}
+        height={64}
+      />
+      <span className="mt-3 text-sm font-medium text-white font-mono bg-neutral-900/70 px-3 py-1 rounded-md">
+        {displayName}
+      </span>
+      <div className="mt-2 text-xs text-neutral-400">
+        <FlowBalance />
+      </div>
+      <span className="text-xs text-neutral-500">~ $0.00 USD</span>
+    </div>
 
-        {/* Navigation */}
-        <nav className="mt-8 px-2 space-y-2"> {/* Removed 'flex-1' here to potentially fix layout issues */}
-          {navItems.map((item) => {
-            const isActive = pathname.startsWith(item.href);
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`
-                  ${isActive ? 'bg-primary text-white' : 'text-neutral-300 hover:bg-neutral-700 hover:text-white'}
-                  flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors
-                `}
-              >
-                <item.icon className="mr-3 flex-shrink-0 h-5 w-5" />
-                <span className="flex-1">{item.name}</span>
-                {item.badge && (
-                  <span className="bg-secondary text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                    {item.badge}
-                  </span>
-                )}
-              </Link>
-            );
-          })}
-        </nav>
-      </div>
+    {/* Navigation */}
+    <nav className="mt-8 flex-1 space-y-1 px-3">
+      {navItems.map((item) => {
+        const isActive = pathname.startsWith(item.href);
+        return (
+          <Link
+            key={item.name}
+            href={item.href}
+            className={`
+              flex items-center px-4 py-2.5 rounded-lg text-sm font-medium transition-all
+              ${isActive
+                ? 'bg-indigo-600/90 text-white shadow-sm'
+                : 'text-neutral-300 hover:bg-neutral-800 hover:text-white'}
+            `}
+          >
+            <item.icon className="mr-3 h-5 w-5 opacity-80" />
+            <span>{item.name}</span>
+            {item.badge && (
+              <span className="ml-auto bg-indigo-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full">
+                {item.badge}
+              </span>
+            )}
+          </Link>
+        );
+      })}
+    </nav>
 
-      {/* "Create Project" Button */}
-      <div className="p-4">
-         <Link 
-            href="/projects/new"
-            className="w-full bg-secondary hover:bg-secondary/90 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center transition-all"
-          >
-            <Plus className="w-5 h-5 mr-2" />
-            Create Project
-         </Link>
-      </div>
-    </div>
-  );
+    {/* CTA */}
+    <div className="px-4 py-5 border-t border-neutral-800">
+      <Link
+        href="/projects/new"
+        className="w-full bg-indigo-500 hover:bg-indigo-400 text-white font-semibold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md"
+      >
+        <Plus className="w-5 h-5" />
+        Create Project
+      </Link>
+    </div>
+  </div>
+);
+
 }

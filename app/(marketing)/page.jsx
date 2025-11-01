@@ -190,6 +190,7 @@ function FeaturesSection() {
           subtitle="On-Chain NFT Badges"
           description="Every completed job mints an NFT badge directly to your wallet. This builds a permanent, verifiable, and portable reputation you can take anywhere."
           imageUrl="/images/feature-nft.png"
+
           reverse={true}
         />
         <FeatureRow
