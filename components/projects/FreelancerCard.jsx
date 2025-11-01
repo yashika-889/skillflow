@@ -14,7 +14,7 @@ export default function FreelancerCard({ freelancer, viewMode }) {
       {/* Avatar */}
       <div className="relative h-40 bg-gradient-to-r from-primary/30 to-secondary/30 flex items-center justify-center">
         <Image 
-          src={`https://api.dicebear.com/7.x/pixel-art/svg?seed=${freelancer.name}`} 
+          src="/icons/user-profile.png" 
           alt="Freelancer Avatar" 
           width={100} 
           height={100}

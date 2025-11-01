@@ -20,7 +20,7 @@ import PortfolioCard from "@/components/profile/PortfolioCard";
 const userProfile = {
   name: "Alice.flow",
   username: "@alice",
-  avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=Alice.flow",
+  avatar: "/icons/user-profile.png",
   cover: "https://picsum.photos/seed/cover/1200/300",
   rating: 4.9,
   reviewCount: 124,
@@ -50,8 +50,8 @@ const userProfile = {
     { id: 3, title: "DAO Governance Portal", category: "Web App", image: "https://picsum.photos/seed/p3/400/300" },
   ],
   reviews: [
-    { id: 1, client: { name: "Bob.eth", avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=Bob" }, rating: 5, date: "2 weeks ago", project: "DeFi Auditing Tool", text: "Alice is a true professional. Her audit was thorough..." },
-    { id: 2, client: { name: "DAO.corp", avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=DAO" }, rating: 5, date: "1 month ago", project: "DAO Governance Portal", text: "Excellent communication and delivered ahead of schedule." },
+    { id: 1, client: { name: "Bob.eth", avatar: "/icons/user-profile.png" }, rating: 5, date: "2 weeks ago", project: "DeFi Auditing Tool", text: "Alice is a true professional. Her audit was thorough..." },
+    { id: 2, client: { name: "DAO.corp", avatar: "/icons/user-profile.png" }, rating: 5, date: "1 month ago", project: "DAO Governance Portal", text: "Excellent communication and delivered ahead of schedule." },
   ]
 };
 // --- End Placeholder Data ---

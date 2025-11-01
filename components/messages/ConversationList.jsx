@@ -79,7 +79,7 @@ function ConversationItem({ chat, isActive }) {
     >
       <div className="relative flex-shrink-0">
         <Image
-          src={`https://api.dicebear.com/7.x/pixel-art/svg?seed=${chat.name}`}
+          src="/icons/user-profile.png"
           alt={chat.name}
           width={48}
           height={48}

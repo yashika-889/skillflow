@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 export default function ProjectCard({ project, viewMode }) {
   // --- Placeholder data (you'll get this from your project object) ---
   const client = {
-    avatar: `https://api.dicebear.com/7.x/pixel-art/svg?seed=Client${project.id}`,
+    avatar: "/icons/user-profile.png",
     name: `Client ${project.id}`
   };
   const postedDate = "3 days ago"; // Placeholder

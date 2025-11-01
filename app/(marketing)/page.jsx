@@ -268,7 +268,7 @@ function SocialProofSection() {
         <div className="mt-20">
           <div className="card-glass p-10 max-w-3xl mx-auto">
             <Image
-              src="https://api.dicebear.com/7.x/pixel-art/svg?seed=Alice.flow"
+              src="/icons/user-profile.png"
               alt="Testimonial"
               width={80}
               height={80}

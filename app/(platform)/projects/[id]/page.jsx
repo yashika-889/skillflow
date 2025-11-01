@@ -31,12 +31,12 @@ const project = {
   description: "We need a new set of on-chain NFT badges for our platform. This will involve creating the Cadence smart contract, minting logic, and a simple UI for users to view their badges. \n\nMust be compatible with the Flow NFT standard.",
   client: {
     name: "Client X",
-    avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=ClientX",
+    avatar: "/icons/user-profile.png",
     isVerified: true,
   },
   freelancer: {
     name: "Alice.flow",
-    avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=Alice.flow",
+    avatar: "/icons/user-profile.png",
     isVerified: true,
   },
   files: [

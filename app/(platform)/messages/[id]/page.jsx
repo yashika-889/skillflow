@@ -6,7 +6,7 @@ const conversation = {
   id: "123",
   otherUser: {
     name: "Alice.flow",
-    avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=Alice.flow",
+    avatar:  "/icons/user-profile.png",
     status: "Active now"
   },
   project: {
