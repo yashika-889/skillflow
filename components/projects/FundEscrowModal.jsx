@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Loader2, CheckCircle, Shield, Info, ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 // Placeholder data - In a real app, this would be passed as props
 const project = {
@@ -72,8 +73,8 @@ export default function FundEscrowModal({ isOpen, onClose }) {
           className="relative w-full max-w-md bg-gray-800/80 backdrop-blur-lg border border-gray-700/50 rounded-2xl shadow-2xl overflow-hidden"
         >
           {/* Close Button */}
-          <button 
-            onClick={handleClose} 
+          <button
+            onClick={handleClose}
             className="absolute top-4 right-4 text-gray-500 hover:text-white"
           >
             <X className="w-6 h-6" />
@@ -99,7 +100,7 @@ export default function FundEscrowModal({ isOpen, onClose }) {
 // Step 1: Review Details
 function Step1Review({ project, total, hasFunds, onFund, error }) {
   const [showDetails, setShowDetails] = useState(false);
-  
+
   return (
     <motion.div
       initial={{ opacity: 0, x: 50 }}
@@ -107,27 +108,27 @@ function Step1Review({ project, total, hasFunds, onFund, error }) {
       exit={{ opacity: 0, x: -50 }}
     >
       <h2 className="text-2xl font-bold text-white text-center mb-4">Fund Project Escrow</h2>
-      
+
       {/* Summary Card */}
       <div className="bg-gray-900/50 border border-gray-700/50 rounded-lg p-4 space-y-3">
         <p className="text-sm text-gray-300 truncate">Project: <span className="text-white font-medium">{project.title}</span></p>
         <p className="text-sm text-gray-300">Freelancer: <span className="text-white font-medium">{project.freelancerName}</span></p>
-        
+
         <div className="border-t border-gray-700/50 pt-3">
           <p className="text-gray-400 text-sm">Total to Deposit:</p>
           <p className="text-3xl font-bold text-accent">{total.toFixed(2)} {project.currency}</p>
         </div>
-        
+
         {/* Breakdown */}
         <div className="space-y-1">
           <BreakdownRow label="Project Cost" value={`${project.amount.toFixed(2)} ${project.currency}`} />
           <BreakdownRow label="Platform Fee (2.5%)" value={`${project.platformFee.toFixed(2)} ${project.currency}`} />
           <BreakdownRow label="Estimated Gas" value={`~${project.gasFee} ${project.currency}`} />
         </div>
-        
+
         {/* Escrow Details */}
         <button onClick={() => setShowDetails(!showDetails)} className="text-xs text-secondary hover:underline flex items-center">
-          Where's my money going? <Info className="w-3 h-3 ml-1" />
+          Where&apos;s my money going? <Info className="w-3 h-3 ml-1" />
         </button>
         {showDetails && (
           <p className="text-xs text-gray-400 p-2 bg-gray-800/50 rounded-md">
@@ -141,7 +142,7 @@ function Step1Review({ project, total, hasFunds, onFund, error }) {
         Your Balance: {project.userBalance.toFixed(2)} {project.currency}
         {!hasFunds && <p className="font-medium">Insufficient funds to cover deposit.</p>}
       </div>
-      
+
       {/* Error Message */}
       {error && (
         <p className="mt-4 text-sm text-center text-error p-2 bg-error/10 rounded-md">
@@ -173,7 +174,7 @@ function Step2Confirm() {
       <div className="relative flex items-center justify-center w-24 h-24">
         {/* Pulsing rings */}
         <div className="absolute w-full h-full bg-primary/20 rounded-full animate-ping"></div>
-        <img src="/icons/flow-logo.png" alt="Wallet" className="w-12 h-12" />
+        <Image src="/icons/flow-logo.png" alt="Wallet" width={48} height={48} className="w-12 h-12" />
       </div>
       <h2 className="text-2xl font-bold text-white mt-6 mb-2">Approve Transaction</h2>
       <p className="text-gray-300">Please confirm the transaction in your wallet app.</p>

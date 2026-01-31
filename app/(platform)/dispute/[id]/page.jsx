@@ -5,9 +5,10 @@ import { useState } from "react";
 import { Gavel, Scale, Clock, ShieldCheck, Download, AlertTriangle } from "lucide-react";
 
 // Import the sub-components we'll create next
-import EvidenceCard from "@/components/dispute/EvidenceCard";
-import JurorVotingCard from "@/components/dispute/JurorVotingCard";
-import CaseResultCard from "@/components/dispute/CaseResultCard";
+// Import the sub-components
+import EvidenceCard from "../EvidenceCard";
+import JurorVotingCard from "../JurorVotingCard";
+import CaseResultCard from "../CaseResultCard";
 
 // --- Placeholder Data ---
 // In a real app, you'd fetch this based on params.id
@@ -60,7 +61,7 @@ export default function DisputePage({ params }) {
 
   return (
     <div className="max-w-5xl mx-auto pb-24">
-      
+
       {/* --- Case Header --- */}
       <div className="bg-gray-800/50 backdrop-blur-lg border border-gray-700/50 rounded-2xl shadow-lg p-6 mb-8">
         <div className="flex flex-col md:flex-row justify-between items-start">
@@ -81,7 +82,7 @@ export default function DisputePage({ params }) {
           </div>
         </div>
       </div>
-      
+
       {/* --- Main Content: Case Overview --- */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <EvidenceCard party={caseData.partyA} />
@@ -95,7 +96,7 @@ export default function DisputePage({ params }) {
         ) : (
           userRole === 'juror' && <JurorVotingCard />
         )}
-        
+
         {userRole !== 'juror' && caseData.status !== 'Resolved' && (
           <div className="card-glass text-center">
             <h3 className="text-xl font-bold text-white">Your Case is Under Review</h3>

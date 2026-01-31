@@ -3,13 +3,13 @@
 import { useState, useEffect } from "react";
 import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
-import { 
-  Plus, 
-  Trash2, 
-  ChevronDown, 
-  HelpCircle, 
-  UploadCloud, 
-  FileText, 
+import {
+  Plus,
+  Trash2,
+  ChevronDown,
+  HelpCircle,
+  UploadCloud,
+  FileText,
   X,
   Loader2,
   Check,
@@ -41,21 +41,22 @@ export default function CreateProjectPage() {
     { id: 1, name: "", description: "", payment: 50 },
   ]);
   const [files, setFiles] = useState([]); // Array of file objects
-  
+
   // --- Auto-save Logic (Simulated) ---
   const formData = { title, category, description, projectType, budget, currency, skills, milestones };
   useEffect(() => {
     // Don't save on initial render
     if (title === "" && description === "" && budget === "") return;
-    
+
     setSaveStatus("saving");
     const handler = setTimeout(() => {
       // In a real app, this would save to localStorage
-      console.log("Autosaving draft...", formData);
+      const currentFormData = { title, category, description, projectType, budget, currency, skills, milestones };
+      console.log("Autosaving draft...", currentFormData);
       setSaveStatus("saved");
       setTimeout(() => setSaveStatus("idle"), 2000);
     }, 2000); // Save 2s after user stops typing
-    
+
     return () => clearTimeout(handler);
   }, [title, category, description, projectType, budget, currency, skills, milestones]); // Re-run effect when any field changes
 
@@ -65,18 +66,18 @@ export default function CreateProjectPage() {
     const newId = milestones.length > 0 ? Math.max(...milestones.map(m => m.id)) + 1 : 1;
     setMilestones([...milestones, { id: newId, name: "", description: "", payment: 0 }]);
   };
-  
+
   const removeMilestone = (id) => {
     if (milestones.length <= 1) return; // Must have at least one
     setMilestones(milestones.filter(m => m.id !== id));
   };
-  
+
   const updateMilestone = (id, field, value) => {
-    setMilestones(milestones.map(m => 
+    setMilestones(milestones.map(m =>
       m.id === id ? { ...m, [field]: value } : m
     ));
   };
-  
+
   // --- Skill Tag Handlers ---
   const addSkill = (e) => {
     if (e.key === 'Enter' && skillInput.trim() !== "") {
@@ -87,7 +88,7 @@ export default function CreateProjectPage() {
       setSkillInput("");
     }
   };
-  
+
   const removeSkill = (skillToRemove) => {
     setSkills(skills.filter(skill => skill !== skillToRemove));
   };
@@ -99,7 +100,7 @@ export default function CreateProjectPage() {
     // Add file validation here (size, type)
     setFiles(prev => [...prev, ...newFiles].slice(0, 10)); // Max 10 files
   };
-  
+
   const removeFile = (fileName) => {
     setFiles(files.filter(file => file.name !== fileName));
   };
@@ -131,8 +132,8 @@ export default function CreateProjectPage() {
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold text-white">Post a New Project</h1>
           <div className="flex items-center h-6">
-            {saveStatus === 'saving' && <span className="text-sm text-gray-400 flex items-center"><Loader2 className="w-4 h-4 mr-2 animate-spin"/> Saving...</span>}
-            {saveStatus === 'saved' && <span className="text-sm text-accent flex items-center"><Check className="w-4 h-4 mr-2"/> Draft saved!</span>}
+            {saveStatus === 'saving' && <span className="text-sm text-gray-400 flex items-center"><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Saving...</span>}
+            {saveStatus === 'saved' && <span className="text-sm text-accent flex items-center"><Check className="w-4 h-4 mr-2" /> Draft saved!</span>}
           </div>
         </div>
       </div>
@@ -151,10 +152,10 @@ export default function CreateProjectPage() {
           </FormInput>
 
           <FormInput label="Category">
-            <select 
+            <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="input-field" 
+              className="input-field"
               required
             >
               <option value="">Select category...</option>
@@ -177,7 +178,7 @@ export default function CreateProjectPage() {
                   toolbar: [
                     [{ 'header': [1, 2, false] }],
                     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                    [{'list': 'ordered'}, {'list': 'bullet'}],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
                     ['link', 'code-block'],
                     ['clean']
                   ],
@@ -219,10 +220,10 @@ export default function CreateProjectPage() {
               />
             </div>
           </FormInput>
-          
+
           <FormInput label="Budget">
             <div className="flex">
-              <select 
+              <select
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value)}
                 className="input-field rounded-r-none w-28"
@@ -242,7 +243,7 @@ export default function CreateProjectPage() {
             </div>
             <p className="text-xs text-gray-400 mt-1">e.g., Total project budget. ($50.00 USD equivalent)</p>
           </FormInput>
-          
+
           {/* --- Milestone Creator --- */}
           <AnimatePresence>
             {projectType === 'milestone' && (
@@ -273,9 +274,9 @@ export default function CreateProjectPage() {
                       </button>
                     )}
                     {totalMilestonePayment !== 100 && (
-                       <p className="text-sm text-error mt-2">
-                         Milestone payments must add up to 100%. (Current: {totalMilestonePayment}%)
-                       </p>
+                      <p className="text-sm text-error mt-2">
+                        Milestone payments must add up to 100%. (Current: {totalMilestonePayment}%)
+                      </p>
                     )}
                   </div>
                 </FormInput>
@@ -306,7 +307,7 @@ export default function CreateProjectPage() {
               />
             </div>
           </FormInput>
-          
+
           <FormInput label="Attachments">
             <FileUploadZone onDrop={handleFileDrop} />
             {files.length > 0 && (
@@ -327,7 +328,7 @@ export default function CreateProjectPage() {
             )}
           </FormInput>
         </FormSection>
-        
+
         {/* --- Section 4: Advanced Settings --- */}
         <div>
           <button
@@ -337,11 +338,11 @@ export default function CreateProjectPage() {
           >
             <Settings2 className="w-5 h-5 mr-2" />
             Smart Contract Settings (Advanced)
-            <ChevronDown 
-              className={`w-5 h-5 ml-2 transition-transform ${isAdvancedOpen ? 'rotate-180' : ''}`} 
+            <ChevronDown
+              className={`w-5 h-5 ml-2 transition-transform ${isAdvancedOpen ? 'rotate-180' : ''}`}
             />
           </button>
-          
+
           <AnimatePresence>
             {isAdvancedOpen && (
               <motion.div
@@ -391,14 +392,14 @@ export default function CreateProjectPage() {
                 {(Number(budget || 0) + Number(platformFee)).toFixed(2)} {currency}
               </span>
             </div>
-            
+
             <div className="flex items-start pt-4">
               <input id="terms" type="checkbox" className="h-4 w-4 rounded bg-gray-700 border-gray-600 text-primary focus:ring-primary mt-1" required />
               <label htmlFor="terms" className="ml-3 text-sm text-gray-300">
                 I agree to the SkillFlow Terms of Service and understand that funds will be locked in an escrow smart contract.
               </label>
             </div>
-            
+
             <button
               type="submit"
               disabled={saveStatus === 'saving'}
@@ -505,7 +506,7 @@ function MilestoneInput({ milestone, onChange, onRemove, canRemove }) {
 // The drag-and-drop file upload zone
 function FileUploadZone({ onDrop }) {
   return (
-    <div 
+    <div
       onDrop={onDrop}
       onDragOver={(e) => e.preventDefault()}
       className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-700/50 rounded-xl bg-gray-900/50 text-center"

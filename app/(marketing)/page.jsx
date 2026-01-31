@@ -266,8 +266,8 @@ function SocialProofSection() {
                 />
               </div>
               <blockquote className="text-2xl text-gray-200 font-serif italic mb-6 leading-relaxed">
-                "SkillFlow is a game-changer. I received my payment in 2 seconds, not 2 weeks.
-                I'm never going back to traditional platforms."
+                &quot;SkillFlow is a game-changer. I received my payment in 2 seconds, not 2 weeks.
+                I&apos;m never going back to traditional platforms.&quot;
               </blockquote>
               <p className="text-[#EE5D52] font-bold uppercase tracking-widest text-sm">
                 - Alice.flow, Senior Cadence Developer

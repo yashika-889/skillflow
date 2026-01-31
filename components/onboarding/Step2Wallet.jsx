@@ -16,9 +16,9 @@ export default function Step2Wallet({ onNext, onBack }) {
     // --- SIMULATED WEB3 LOGIC ---
     // In a real app, you would call your FCL or wagmi functions here
     // e.g., await fcl.authenticate();
-    
+
     console.log(`Attempting to connect with ${wallet}...`);
-    
+
     setTimeout(() => {
       // Simulate a random success or failure
       if (Math.random() > 0.1) {
@@ -83,7 +83,7 @@ export default function Step2Wallet({ onNext, onBack }) {
       </div>
 
       <div className="text-center mt-6">
-        <span className="text-gray-400">Don't have a wallet? </span>
+        <span className="text-gray-400">Don&apos;t have a wallet? </span>
         <a href="#" className="font-medium text-primary hover:underline">
           Create One
         </a>

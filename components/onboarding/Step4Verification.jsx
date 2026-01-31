@@ -2,7 +2,7 @@
 import { BadgeCheck, FileUp, Sparkles } from "lucide-react";
 
 export default function Step4Verification({ onComplete, onBack }) {
-  
+
   return (
     <div>
       <h1 className="text-3xl font-bold text-white text-center mb-4">
@@ -20,7 +20,7 @@ export default function Step4Verification({ onComplete, onBack }) {
             <p className="text-neutral-400">Check your wallet for skill NFTs.</p>
           </div>
         </button>
-        
+
         <button className="action-card">
           <FileUp className="w-8 h-8 text-secondary" />
           <div>
@@ -33,7 +33,7 @@ export default function Step4Verification({ onComplete, onBack }) {
           <Sparkles className="w-8 h-8 text-accent group-hover:animate-pulse" />
           <div>
             <h3 className="text-lg font-semibold text-white">Claim Free Badge</h3>
-            <p className="text-neutral-400">Mint your free "Early Adopter" NFT!</p>
+            <p className="text-neutral-400">Mint your free &quot;Early Adopter&quot; NFT!</p>
           </div>
         </button>
       </div>

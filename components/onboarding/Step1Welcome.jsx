@@ -1,7 +1,7 @@
 import { Briefcase, User } from "lucide-react";
 
 export default function Step1Welcome({ onNext, setUserType }) {
-  
+
   const handleSelect = (userType) => {
     setUserType(userType);
     onNext();
@@ -13,7 +13,7 @@ export default function Step1Welcome({ onNext, setUserType }) {
         Welcome to SkillFlow! 🚀
       </h1>
       <p className="text-lg text-neutral-300 mb-8">
-        Let's get you started. What brings you here?
+        Let&apos;s get you started. What brings you here?
       </p>
       <div className="space-y-4">
         <RoleButton

@@ -1,8 +1,8 @@
-import { Download, ShieldCheck, FileText, Image, Video } from "lucide-react";
+import { Download, ShieldCheck, FileText, Image as ImageIcon, Video } from "lucide-react";
 
 // Helper to get file icon
 const FileIcon = ({ type }) => {
-  if (type === 'image') return <Image className="w-5 h-5 text-secondary" />;
+  if (type === 'image') return <ImageIcon className="w-5 h-5 text-secondary" />;
   if (type === 'video') return <Video className="w-5 h-5 text-accent" />;
   if (type === 'pdf') return <FileText className="w-5 h-5 text-error" />;
   return <FileText className="w-5 h-5 text-gray-400" />;

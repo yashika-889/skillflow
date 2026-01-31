@@ -1,23 +1,23 @@
-"use client"; 
+"use client";
 
 import { useState, useCallback, useEffect } from "react";
 import { formatEther } from "ethers";
-import { 
-    connectWallet, 
-    loadAllProjects, 
-    listProject, 
-    getPaymentsByClient 
-} from "@/lib/contractService"; 
+import {
+    connectWallet,
+    loadAllProjects,
+    listProject,
+    getPaymentsByClient
+} from "@/lib/contractService";
 
 export default function PaymentsPage() {
     const [account, setAccount] = useState("");
     const [balance, setBalance] = useState("");
-    const [contract, setContract] = useState(null); 
-    const [items, setItems] = useState([]); 
+    const [contract, setContract] = useState(null);
+    const [items, setItems] = useState([]);
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const [clientAddress, setClientAddress] = useState("");
-    
+
     const loadProjects = useCallback(async (currentContract) => {
         if (!currentContract) return;
         try {
@@ -34,7 +34,7 @@ export default function PaymentsPage() {
             setAccount(userAddress);
             setBalance(formatEther(balanceWei));
             setContract(marketContract);
-            await loadProjects(marketContract); 
+            await loadProjects(marketContract);
         } catch (err) {
             console.error("Wallet connection failed:", err);
             alert("Connection failed. Ensure MetaMask is on Flow EVM.");
@@ -48,7 +48,7 @@ export default function PaymentsPage() {
         try {
             await listProject(contract, name, price);
             alert("Project listed successfully!");
-            await loadProjects(contract); 
+            await loadProjects(contract);
             setName("");
             setPrice("");
         } catch (err) {
@@ -56,13 +56,13 @@ export default function PaymentsPage() {
             alert("Failed to list project. Check console.");
         }
     };
-    
+
     const handleGetPaymentsByClient = async () => {
         if (!contract) return alert("Connect wallet first");
         if (!clientAddress) return alert("Enter client address");
         try {
             const ownedItems = await getPaymentsByClient(contract, clientAddress);
-            setItems(ownedItems); 
+            setItems(ownedItems);
         } catch (err) {
             console.error("Failed to get payments by client:", err);
             alert("Error fetching payments. Check console.");
@@ -72,10 +72,10 @@ export default function PaymentsPage() {
     return (
         <main className="flex-1 p-8 bg-neutral-900 text-white min-h-screen">
             <h1 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-500">PayMents</h1>
-            
+
             <div className="p-6 bg-neutral-800 border border-amber-500/20 rounded-xl mb-6">
                 <h2 className="text-xl font-semibold mb-4">MetaMask Wallet Status</h2>
-                
+
                 {/* Steps are now permanent and outside the conditional block */}
                 <div className="bg-black/30 p-4 rounded-lg border border-white/5 mb-6">
                     <p className="text-amber-400 font-medium mb-3 text-sm uppercase tracking-wider">How to connect:</p>
@@ -94,7 +94,7 @@ export default function PaymentsPage() {
                         </li>
                         <li className="flex items-center gap-2">
                             <span className="flex items-center justify-center w-5 h-5 bg-amber-600/20 text-amber-500 rounded-full text-xs">4</span>
-                            Click "Connect Wallet" to link your account.
+                            Click &quot;Connect Wallet&quot; to link your account.
                         </li>
                     </ul>
                 </div>
@@ -110,7 +110,7 @@ export default function PaymentsPage() {
                     </div>
                 )}
             </div>
-            
+
             <div className="p-6 bg-neutral-800 border border-white/5 rounded-xl mb-6">
                 <h3 className="text-xl font-semibold mb-4">List Project</h3>
                 <div className="flex gap-4">

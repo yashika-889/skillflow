@@ -76,16 +76,16 @@ export default function OnboardingPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-neutral-900 text-white p-4">
         {/* Only render Confetti if windowSize is available */}
-        {windowSize.width > 0 && <Confetti width={windowSize.width} height={windowSize.height} recycle={false} numberOfPieces={300}/>}
+        {windowSize.width > 0 && <Confetti width={windowSize.width} height={windowSize.height} recycle={false} numberOfPieces={300} />}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
           className="text-center bg-neutral-800 p-8 rounded-2xl shadow-2xl card-glass" // Use card-glass
         >
-          <h1 className="text-4xl font-bold mb-4">You're all set! 🎉</h1>
+          <h1 className="text-4xl font-bold mb-4">You&apos;re all set! 🎉</h1>
           <p className="text-lg text-neutral-300 mb-6">
-            Welcome to SkillFlow. You're ready to start your journey.
+            Welcome to SkillFlow. You&apos;re ready to start your journey.
           </p>
           <button
             onClick={() => router.push('/dashboard')} // Redirect on click
@@ -104,7 +104,7 @@ export default function OnboardingPage() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-neutral-900 p-4">
       <div className="w-full max-w-lg">
         <OnboardingProgress currentStep={step} totalSteps={STEPS} />
-        
+
         <div className="card-glass p-6 sm:p-10 mt-6"> {/* Use card-glass */}
           <AnimatePresence mode="wait">
             <motion.div
@@ -116,15 +116,15 @@ export default function OnboardingPage() {
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
               {step === 1 && (
-                <Step1Welcome 
-                  onNext={nextStep} 
-                  setUserType={setUserType} 
+                <Step1Welcome
+                  onNext={nextStep}
+                  setUserType={setUserType}
                 />
               )}
               {step === 2 && (
-                <Step2Wallet 
-                  onNext={nextStep} 
-                  onBack={prevStep} 
+                <Step2Wallet
+                  onNext={nextStep}
+                  onBack={prevStep}
                 />
               )}
               {step === 3 && (
@@ -135,21 +135,21 @@ export default function OnboardingPage() {
                 />
               )}
               {step === 4 && userType === 'freelancer' && (
-                <Step4Verification 
-                  onComplete={onCompleteOnboarding} 
-                  onBack={prevStep} 
+                <Step4Verification
+                  onComplete={onCompleteOnboarding}
+                  onBack={prevStep}
                 />
               )}
             </motion.div>
           </AnimatePresence>
         </div>
-        
+
         <div className="text-center mt-6">
           <button
             onClick={() => router.push('/dashboard')}
             className="text-sm text-neutral-400 hover:text-white transition-colors"
           >
-            I'll do this later
+            I&apos;ll do this later
           </button>
         </div>
       </div>
