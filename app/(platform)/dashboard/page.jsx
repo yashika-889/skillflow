@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Copy, DollarSign, ListChecks, Star, Zap } from "lucide-react";
 
-// Placeholder data (kept from your original)
+// Placeholder data
 const stats = [
   { name: "Active Projects", value: 3, trend: "+1" },
   { name: "Total Earnings", value: "24.5K", unit: "USD", trend: "+12%" },
@@ -26,11 +26,8 @@ const activities = [
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("freelancer");
-  
-  // NEW: State to hold the MongoDB user's name
   const [userName, setUserName] = useState("User");
 
-  // NEW: Effect to pull the name from storage after login
   useEffect(() => {
     const savedName = localStorage.getItem('skillflow_user_name');
     if (savedName) setUserName(savedName);
@@ -42,7 +39,7 @@ export default function Dashboard() {
       animate={{ opacity: 1 }}
       className="space-y-8 pb-16 md:pb-0"
     >
-      {/* Welcome Section - NOW UPDATED */}
+      {/* Welcome Section */}
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -152,4 +149,44 @@ export default function Dashboard() {
   );
 }
 
-// ... include your existing sub-components (ProjectCard, QuickActionCard, EmptyState) below
+// --- Sub-components for Dashboard ---
+
+function ProjectCard({ project }) {
+  return (
+    <div className="bg-gray-800/40 border border-gray-700/50 rounded-xl p-5 flex items-center justify-between hover:border-indigo-500/50 transition-all group">
+      <div className="flex items-center space-x-4">
+        <div className="bg-indigo-500/10 p-3 rounded-lg text-indigo-400 font-bold text-xl">
+          {project.progress}%
+        </div>
+        <div>
+          <h3 className="text-white font-semibold">{project.title}</h3>
+          <p className="text-sm text-gray-400">{project.otherParty} • {project.status}</p>
+        </div>
+      </div>
+      <button className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg transition-colors">
+        {project.action}
+      </button>
+    </div>
+  );
+}
+
+function QuickActionCard({ icon, title, subtitle }) {
+  return (
+    <div className="flex items-center p-4 bg-gray-800/40 border border-gray-700/50 rounded-xl hover:bg-gray-800/60 cursor-pointer transition-all group">
+      <div className="mr-4 group-hover:scale-110 transition-transform">{icon}</div>
+      <div>
+        <p className="text-white font-medium">{title}</p>
+        <p className="text-xs text-gray-400">{subtitle}</p>
+      </div>
+    </div>
+  );
+}
+
+function EmptyState() {
+  return (
+    <div className="text-center py-12 bg-gray-900/30 rounded-2xl border border-dashed border-gray-700">
+      <ListChecks className="w-12 h-12 text-gray-600 mx-auto mb-4" />
+      <p className="text-gray-500">No active projects found in this category.</p>
+    </div>
+  );
+}

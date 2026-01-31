@@ -1,0 +1,70 @@
+REQUIRED FIXES — skillflow repository
+
+1) Remove/merge leftover `.new` files (low risk)
+   - Files found:
+     - package.json.new
+     - app/api/auth/signup/route.new.js
+     - app/api/auth/login/route.new.js
+   - Action:
+     - Review diffs against existing files, then either merge changes into the canonical files or delete the `.new` versions.
+     - Suggested commands:
+       - Review: `git diff --no-index package.json package.json.new`
+       - Delete if redundant: `git rm package.json.new` and `git rm app/api/auth/signup/route.new.js app/api/auth/login/route.new.js`
+
+2) Fix filename typo: `FilterSIdebar.jsx` → `FilterSidebar.jsx` (medium risk on non-Windows systems)
+   - Problem:
+     - The file `components/projects/FilterSIdebar.jsx` is exported as `FilterSidebar` and imported as `@/components/projects/FilterSidebar` in `app/(platform)/projects/page.jsx`. The filename contains a capital "I" in "SIdebar" which will cause issues on case-sensitive filesystems.
+     - `architecture.txt` also references `FilterSIdebar.jsx`.
+   - Action:
+     - Rename the file and update references:
+       - `git mv components/projects/FilterSIdebar.jsx components/projects/FilterSidebar.jsx`
+       - Update references in `architecture.txt` (replace the name) and run `git add`/commit.
+   - Verification:
+     - Run the app build or dev server and confirm the import resolves: `pnpm dev` or `npm run dev`.
+
+3) Consolidate duplicated message components (design/maintenance issue)
+   - Duplicates found:
+     - `ChatInterface.jsx` ->
+       - `components/messages/ChatInterface.jsx`
+       - `app/(platform)/messages/ChatInterface.jsx`
+     - `ConversationList.jsx` ->
+       - `components/messages/ConversationList.jsx`
+       - `app/(platform)/messages/ConversationList.jsx`
+     - `SelectMessage.jsx` ->
+       - `components/messages/SelectMessage.jsx`
+       - `app/(platform)/messages/SelectMessage.jsx`
+   - Problem:
+     - The two sets are extremely similar and will diverge, causing confusion.
+   - Options to fix (choose one):
+     - Option A (recommended): Keep canonical components under `components/messages/*` and remove the duplicates under `app/(platform)/messages/`, replacing them with re-exports or imports.
+       - Steps:
+         1. Replace the duplicate files in `app/(platform)/messages/` with a small wrapper that imports from `@/components/messages/*` or remove them and update any imports to point at `@/components/messages/*`.
+         2. Run the app and visually verify message UI works the same.
+       - Commands example:
+         - `git rm app/(platform)/messages/ChatInterface.jsx` (after confirming everything imports from `components/messages`)
+         - Or: replace content to `export { default } from '@/components/messages/ChatInterface'`
+     - Option B: If the app-level ones are intentionally different, rename them to make their purpose explicit (e.g., `ChatInterfacePanel.jsx`) and document why they differ.
+
+4) Search for other artifacts and inconsistencies (general cleanup)
+   - Run searches for `.new` and common typos (e.g., `SIdebar`) to handle any other leftovers.
+   - Commands:
+     - `git ls-files | grep "\.new"`
+     - `rg "FilterSIdebar|FilterSidebar" -n`
+
+5) Testing & CI checks (required after changes)
+   - Run lint/build/tests:
+     - `pnpm lint` or `npm run lint`
+     - `pnpm build` or `npm run build`
+     - Run unit/integration tests if present: `pnpm test`
+   - Manual verification: Navigate to project pages that use the changed components (Projects, Messages) and ensure UI renders correctly.
+
+6) PR template suggestion
+   - Title: `chore: remove .new leftovers, fix FilterSidebar filename, consolidate message components`
+   - Description: Summarize changed files, rationale for consolidating duplicates, testing steps and link to this checklist.
+
+Notes & Risks
+- Deleting files should only be done after confirming they are truly redundant; prefer merging when `.new` represents updated configuration.
+- Renaming `FilterSIdebar.jsx` is safe on Windows but necessary for cross-platform compatibility.
+- Consolidating duplicated components may require visual QA to ensure no subtle differences are lost.
+
+If you'd like, I can open a branch and apply these changes (rename, remove `.new` files, and optionally consolidate message components) and create a PR for your review.

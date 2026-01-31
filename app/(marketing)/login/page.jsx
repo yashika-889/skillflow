@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Card from '@/components/ui/Card';
@@ -18,6 +18,17 @@ export default function LoginPage() {
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  // FIX: Reset form when switching between Login and Signup
+  useEffect(() => {
+    setFormData({
+      email: '',
+      password: '',
+      name: '',
+      confirmPassword: '',
+    });
+    setError('');
+  }, [activeTab]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,13 +57,16 @@ export default function LoginPage() {
 
       if (data.success) {
         // --- THE FIX ---
-        // We extract the name from the MongoDB response and save it to Local Storage.
-        // The Sidebar and Dashboard are programmed to look for this specific key.
         const nameToStore = data.user?.name || formData.name || 'User';
         localStorage.setItem('skillflow_user_name', nameToStore);
         
+        // Ensure state is refreshed and redirect
         router.refresh(); 
-        router.push(data.onboardingComplete ? '/dashboard' : '/onboarding');
+        
+        // Use a slight timeout to ensure localStorage is settled
+        setTimeout(() => {
+          router.push(data.onboardingComplete ? '/dashboard' : '/onboarding');
+        }, 100);
       }
     } catch (err) {
       setError(err.message);
@@ -63,7 +77,6 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Background with Dark Overlay */}
       <div className="absolute inset-0 z-0">
         <Image src="/login-bg.jpg" alt="Background" fill className="object-cover" priority />
         <div className="absolute inset-0 bg-neutral-900/80 mix-blend-multiply" />
@@ -79,17 +92,31 @@ export default function LoginPage() {
             {['login', 'signup'].map((tab) => (
               <button
                 key={tab}
+                type="button"
                 onClick={() => setActiveTab(tab)}
-                className={`text-lg font-medium pb-2 relative ${activeTab === tab ? 'text-amber-400' : 'text-gray-500'}`}
+                className={`text-lg font-medium pb-2 relative transition-colors ${activeTab === tab ? 'text-amber-400' : 'text-gray-500'}`}
               >
                 {tab === 'login' ? 'Sign In' : 'Sign Up'}
-                {activeTab === tab && <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]" />}
+                {activeTab === tab && (
+                  <motion.div 
+                    layoutId="activeTab" 
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]" 
+                  />
+                )}
               </button>
             ))}
           </div>
 
           <form className="space-y-5" onSubmit={handleSubmit}>
-            {error && <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-200 text-sm">{error}</div>}
+            {error && (
+              <motion.div 
+                initial={{ opacity: 0, y: -10 }} 
+                animate={{ opacity: 1, y: 0 }}
+                className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-200 text-sm"
+              >
+                {error}
+              </motion.div>
+            )}
 
             <div className="space-y-4">
               {activeTab === 'signup' && (
@@ -105,6 +132,7 @@ export default function LoginPage() {
                   />
                 </div>
               )}
+              
               <div>
                 <label className="block text-xs font-semibold text-amber-500/80 mb-1 uppercase tracking-wider">Email</label>
                 <input
@@ -116,6 +144,7 @@ export default function LoginPage() {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
               </div>
+
               <div>
                 <label className="block text-xs font-semibold text-amber-500/80 mb-1 uppercase tracking-wider">Password</label>
                 <input
@@ -127,9 +156,27 @@ export default function LoginPage() {
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 />
               </div>
+
+              {activeTab === 'signup' && (
+                <div>
+                  <label className="block text-xs font-semibold text-amber-500/80 mb-1 uppercase tracking-wider">Confirm Password</label>
+                  <input
+                    type="password"
+                    required
+                    className="w-full px-4 py-3 rounded-lg bg-black/50 border border-amber-500/20 text-amber-50 outline-none focus:ring-1 focus:ring-amber-500/50"
+                    placeholder="••••••••"
+                    value={formData.confirmPassword}
+                    onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                  />
+                </div>
+              )}
             </div>
 
-            <Button type="submit" className="w-full py-4 bg-gradient-to-r from-amber-700 to-amber-600 hover:from-amber-600 hover:to-amber-500 text-white font-bold rounded-lg transition-all shadow-[0_0_20px_rgba(245,158,11,0.3)]" disabled={isLoading}>
+            <Button 
+              type="submit" 
+              className="w-full py-4 bg-gradient-to-r from-amber-700 to-amber-600 hover:from-amber-600 hover:to-amber-500 text-white font-bold rounded-lg transition-all shadow-[0_0_20px_rgba(245,158,11,0.3)] disabled:opacity-50" 
+              disabled={isLoading}
+            >
               {isLoading ? 'Processing...' : activeTab === 'login' ? 'Enter Portal' : 'Create Account'}
             </Button>
           </form>
