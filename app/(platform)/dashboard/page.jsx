@@ -1,5 +1,5 @@
 "use client";
-
+import ProjectCard from "@/components/projects/ProjectCard";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Copy, DollarSign, ListChecks, Star, Zap } from "lucide-react";
