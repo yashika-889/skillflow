@@ -5,9 +5,9 @@ import { useState } from "react";
 import { Gavel, Scale, Clock, ShieldCheck, Download, AlertTriangle } from "lucide-react";
 
 // Import the sub-components we'll create next
-import CaseResultCard from "../CaseResultCard";
-import EvidenceCard from "../EvidenceCard";
-import JurorVotingCard from "../JurorVotingCard";
+import CaseResultCard from "@/components/dispute/CaseResultCard";
+import EvidenceCard from "@/components/dispute/EvidenceCard";
+import JurorVotingCard from "@/components/dispute/JurorVotingCard";
 
 // --- Placeholder Data ---
 // In a real app, you'd fetch this based on params.id
