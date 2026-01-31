@@ -1,11 +1,11 @@
 "use client";
-
+import ProjectCard from "@/components/projects/ProjectCard";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Copy, DollarSign, ListChecks, Star, Zap } from "lucide-react";
-import ProjectCard from "@/components/projects/ProjectCard";
 
-// Placeholder data (kept from your original)
+
+// Placeholder data
 const stats = [
   { name: "Active Projects", value: 3, trend: "+1" },
   { name: "Total Earnings", value: "24.5K", unit: "USD", trend: "+12%" },
@@ -75,11 +75,9 @@ const activities = [
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("freelancer");
-
   // NEW: State to hold the MongoDB user's name
   const [userName, setUserName] = useState("User");
 
-  // NEW: Effect to pull the name from storage after login
   useEffect(() => {
     const savedName = localStorage.getItem('skillflow_user_name');
     if (savedName) setUserName(savedName);
@@ -195,9 +193,12 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-    </motion.div>
+    </motion.div >
   );
 }
+
+// --- Sub-components for Dashboard ---
+// (We are using imported components now to avoid duplication)
 
 function QuickActionCard({ icon, title, subtitle }) {
   return (

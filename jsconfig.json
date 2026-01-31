@@ -4,7 +4,7 @@
     "paths": {
       "@/*": ["./*"]
     }
-  },
-  "exclude": ["node_modules"]
+  }
 }
+
 

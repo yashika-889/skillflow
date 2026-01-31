@@ -6,9 +6,9 @@ import { Gavel, Scale, Clock, ShieldCheck, Download, AlertTriangle } from "lucid
 
 // Import the sub-components we'll create next
 // Import the sub-components
-import EvidenceCard from "../EvidenceCard";
-import JurorVotingCard from "../JurorVotingCard";
-import CaseResultCard from "../CaseResultCard";
+import EvidenceCard from "@/components/dispute/EvidenceCard";
+import JurorVotingCard from "@/components/dispute/JurorVotingCard";
+import CaseResultCard from "@/components/dispute/CaseResultCard";
 
 // --- Placeholder Data ---
 // In a real app, you'd fetch this based on params.id
