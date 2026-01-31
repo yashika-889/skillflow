@@ -1,4 +1,3 @@
-// app/payments/page.jsx (Final Code)
 "use client"; 
 
 import { useState, useCallback, useEffect } from "react";
@@ -8,7 +7,7 @@ import {
     loadAllProjects, 
     listProject, 
     getPaymentsByClient 
-} from "@/lib/contractService"; // ⬅️ This requires lib/contractService.js to be correctly copied
+} from "@/lib/contractService"; 
 
 export default function PaymentsPage() {
     const [account, setAccount] = useState("");
@@ -19,7 +18,6 @@ export default function PaymentsPage() {
     const [price, setPrice] = useState("");
     const [clientAddress, setClientAddress] = useState("");
     
-    // Helper to reload the project list
     const loadProjects = useCallback(async (currentContract) => {
         if (!currentContract) return;
         try {
@@ -30,7 +28,6 @@ export default function PaymentsPage() {
         }
     }, []);
 
-    // 1. Wallet Connection Logic
     const handleConnectWallet = async () => {
         try {
             const { userAddress, balanceWei, marketContract } = await connectWallet();
@@ -40,11 +37,10 @@ export default function PaymentsPage() {
             await loadProjects(marketContract); 
         } catch (err) {
             console.error("Wallet connection failed:", err);
-            alert("Connection failed. Make sure MetaMask is installed.");
+            alert("Connection failed. Ensure MetaMask is on Flow EVM.");
         }
     };
 
-    // 2. List Project Logic
     const handleListProject = async () => {
         if (!contract) return alert("Connect wallet first");
         if (!name || !price) return alert("Enter project name and price");
@@ -61,7 +57,6 @@ export default function PaymentsPage() {
         }
     };
     
-    // 3. Get Payments by Client Logic
     const handleGetPaymentsByClient = async () => {
         if (!contract) return alert("Connect wallet first");
         if (!clientAddress) return alert("Enter client address");
@@ -74,59 +69,73 @@ export default function PaymentsPage() {
         }
     };
 
-    // 4. Render UI
     return (
         <main className="flex-1 p-8 bg-neutral-900 text-white min-h-screen">
-            <h1 className="text-3xl font-bold mb-6">PayMents</h1>
+            <h1 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-500">PayMents</h1>
             
-            {/* 1. Connect Wallet */}
-            <div className="p-6 bg-neutral-800 rounded-xl mb-6">
+            <div className="p-6 bg-neutral-800 border border-amber-500/20 rounded-xl mb-6">
                 <h2 className="text-xl font-semibold mb-4">MetaMask Wallet Status</h2>
+                
+                {/* Steps are now permanent and outside the conditional block */}
+                <div className="bg-black/30 p-4 rounded-lg border border-white/5 mb-6">
+                    <p className="text-amber-400 font-medium mb-3 text-sm uppercase tracking-wider">How to connect:</p>
+                    <ul className="space-y-2 text-sm text-neutral-300">
+                        <li className="flex items-center gap-2">
+                            <span className="flex items-center justify-center w-5 h-5 bg-amber-600/20 text-amber-500 rounded-full text-xs">1</span>
+                            Download and add the MetaMask extension to your browser.
+                        </li>
+                        <li className="flex items-center gap-2">
+                            <span className="flex items-center justify-center w-5 h-5 bg-amber-600/20 text-amber-500 rounded-full text-xs">2</span>
+                            Sign in or create a new secure wallet.
+                        </li>
+                        <li className="flex items-center gap-2">
+                            <span className="flex items-center justify-center w-5 h-5 bg-amber-600/20 text-amber-500 rounded-full text-xs">3</span>
+                            Switch your network to Flow EVM.
+                        </li>
+                        <li className="flex items-center gap-2">
+                            <span className="flex items-center justify-center w-5 h-5 bg-amber-600/20 text-amber-500 rounded-full text-xs">4</span>
+                            Click "Connect Wallet" to link your account.
+                        </li>
+                    </ul>
+                </div>
+
                 {!account ? (
-                    <button onClick={handleConnectWallet} className="bg-primary hover:bg-primary/90 py-2 px-4 rounded-lg">
+                    <button onClick={handleConnectWallet} className="bg-amber-600 hover:bg-amber-500 py-2 px-6 rounded-lg transition-all font-medium">
                         Connect Wallet
                     </button>
                 ) : (
-                    <p>Connected: <span className="font-mono">{account}</span></p>
+                    <div className="flex justify-between items-center p-3 bg-amber-600/10 rounded-lg border border-amber-600/20">
+                        <p>Connected: <span className="font-mono text-amber-400">{account}</span></p>
+                        <p className="text-sm text-neutral-400">Balance: {balance} FLOW</p>
+                    </div>
                 )}
             </div>
             
-            <hr className="border-neutral-700 my-8" />
-
-            {/* 2. List Project */}
-            <div className="p-6 bg-neutral-800 rounded-xl mb-6">
+            <div className="p-6 bg-neutral-800 border border-white/5 rounded-xl mb-6">
                 <h3 className="text-xl font-semibold mb-4">List Project</h3>
-                <input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} className="p-2 rounded-lg bg-neutral-700 mr-2" />
-                <input placeholder="Price in FLOW/ETH" value={price} onChange={(e) => setPrice(e.target.value)} className="p-2 rounded-lg bg-neutral-700 mr-2" />
-                <button onClick={handleListProject} disabled={!contract} className="bg-secondary hover:bg-secondary/90 py-2 px-4 rounded-lg disabled:opacity-50">
-                    List Project
-                </button>
+                <div className="flex gap-4">
+                    <input placeholder="Project Name" value={name} onChange={(e) => setName(e.target.value)} className="flex-1 p-3 rounded-lg bg-neutral-700 outline-none focus:ring-1 focus:ring-amber-500" />
+                    <input placeholder="Price (FLOW)" value={price} onChange={(e) => setPrice(e.target.value)} className="w-40 p-3 rounded-lg bg-neutral-700 outline-none focus:ring-1 focus:ring-amber-500" />
+                    <button onClick={handleListProject} disabled={!contract} className="bg-indigo-600 hover:bg-indigo-500 py-3 px-6 rounded-lg disabled:opacity-50">
+                        List Project
+                    </button>
+                </div>
             </div>
 
-            <hr className="border-neutral-700 my-8" />
-
-            {/* 3. All Projects */}
-            <div className="p-6 bg-neutral-800 rounded-xl mb-6">
-                <h3 className="text-xl font-semibold mb-4">All Projects</h3>
-                {items.length === 0 ? (<p className="text-neutral-400">No projects available</p>) : (
-                    items.map((item) => (
-                        <div key={item.Id} className="border border-neutral-700 p-3 rounded-lg my-2">
-                            <p>Name: {item.name}</p>
-                            <p>Price: {formatEther(item.price)} FLOW</p>
-                        </div>
-                    ))
+            <div className="p-6 bg-neutral-800 border border-white/5 rounded-xl">
+                <h3 className="text-xl font-semibold mb-4">Project Registry</h3>
+                {items.length === 0 ? (
+                    <p className="text-neutral-500 italic">No projects found on chain.</p>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {items.map((item) => (
+                            <div key={item.Id} className="border border-neutral-700 p-4 rounded-lg bg-neutral-900/50">
+                                <p className="text-amber-400 font-bold">{item.name}</p>
+                                <p className="text-sm text-neutral-400 mt-1">Cost: {formatEther(item.price)} FLOW</p>
+                            </div>
+                        ))}
+                    </div>
                 )}
-            </div>
-
-            <hr className="border-neutral-700 my-8" />
-
-            {/* 4. Get Payment by Client */}
-            <div className="p-6 bg-neutral-800 rounded-xl">
-                <h3 className="text-xl font-semibold mb-4">Get Payment by Client</h3>
-                <input placeholder="Client address" value={clientAddress} onChange={(e) => setClientAddress(e.target.value)} className="p-2 rounded-lg bg-neutral-700 mr-2" />
-                <button onClick={handleGetPaymentsByClient} disabled={!contract} className="bg-primary hover:bg-primary/90 py-2 px-4 rounded-lg disabled:opacity-50">
-                    Get Payment
-                </button>
             </div>
         </main>
     );

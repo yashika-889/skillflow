@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LayoutGrid, List, Search } from "lucide-react";
 
-// Import the components we'll create next
+// Import existing components
 import FilterSidebar from "@/components/projects/FilterSidebar";
 import ProjectCard from "@/components/projects/ProjectCard";
 import SkeletonCard from "@/components/projects/SkeletonCard";
@@ -21,22 +21,17 @@ const freelancers = [
   { id: 1, name: "Alice (0xAlice.flow)", skills: ["Solidity", "Cadence", "Rust"], rating: 5.0, reviews: 124, price: "$120/hr", success: "100%", completed: 60, nftBadges: 6, verified: true, risingStar: true },
   { id: 2, name: "Bob.eth", skills: ["React", "UI/UX", "Figma"], rating: 4.9, reviews: 88, price: "$90/hr", success: "98%", completed: 45, nftBadges: 4, verified: true },
 ];
-// --- End Placeholder Data ---
 
 export default function BrowsePage() {
-  const [activeTab, setActiveTab] = useState("projects"); // 'projects' or 'freelancers'
-  const [viewMode, setViewMode] = useState("grid"); // 'grid' or 'list'
-  const [isLoading, setIsLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState("projects");
+  const [viewMode, setViewMode] = useState("grid");
+  const [userName, setUserName] = useState("User");
 
-  const loadMore = () => {
-    setIsLoading(true);
-    // Simulate fetching more data
-    setTimeout(() => {
-      // In a real app, you'd append new items to the 'projects' array
-      console.log("Loading more...");
-      setIsLoading(false);
-    }, 1500);
-  };
+  // Sync with your MongoDB login name
+  useEffect(() => {
+    const savedName = localStorage.getItem('skillflow_user_name');
+    if (savedName) setUserName(savedName);
+  }, []);
 
   return (
     <div className="flex">
@@ -49,37 +44,36 @@ export default function BrowsePage() {
       <div className="flex-1 min-w-0">
         
         {/* --- Header: Tabs & Controls --- */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-          {/* Tabs */}
-          <div className="flex space-x-1 bg-gray-900/50 p-1 rounded-lg w-full md:w-auto">
-            <button
-              onClick={() => setActiveTab("projects")}
-              className={`w-full md:w-auto px-6 py-2 rounded-md text-sm font-medium ${activeTab === 'projects' ? 'bg-primary text-white' : 'text-gray-400 hover:bg-gray-700/50'}`}
-            >
-              Find Projects
-            </button>
-            <button
-              onClick={() => setActiveTab("freelancers")}
-              className={`w-full md:w-auto px-6 py-2 rounded-md text-sm font-medium ${activeTab === 'freelancers' ? 'bg-primary text-white' : 'text-gray-400 hover:bg-gray-700/50'}`}
-            >
-              Find Freelancers
-            </button>
+        <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+          <div className="w-full md:w-auto">
+            <h1 className="text-2xl font-bold text-white">Browse {activeTab === 'projects' ? 'Projects' : 'Freelancers'}</h1>
+            <p className="text-sm text-gray-400">Discover top opportunities in the ecosystem.</p>
           </div>
-          
-          {/* Sort & View Controls */}
+
           <div className="flex items-center gap-4 w-full md:w-auto">
-            <select className="input-field !py-2 !px-3 text-sm flex-1">
-              <option>Sort by: Best Match</option>
-              <option>Sort by: Highest Rated</option>
-              <option>Sort by: Lowest Price</option>
-              <option>Sort by: Fastest Delivery</option>
-            </select>
-            <div className="hidden md:flex items-center bg-gray-800/50 rounded-lg">
-              <button onClick={() => setViewMode('grid')} className={`p-2 ${viewMode === 'grid' ? 'text-primary' : 'text-gray-500'}`}>
-                <LayoutGrid className="w-5 h-5" />
+            {/* Tabs */}
+            <div className="flex space-x-1 bg-gray-900/50 p-1 rounded-lg">
+              <button
+                onClick={() => setActiveTab("projects")}
+                className={`px-6 py-2 rounded-md text-sm font-medium transition-all ${activeTab === 'projects' ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:text-white'}`}
+              >
+                Projects
               </button>
-              <button onClick={() => setViewMode('list')} className={`p-2 ${viewMode === 'list' ? 'text-primary' : 'text-gray-500'}`}>
-                <List className="w-5 h-5" />
+              <button
+                onClick={() => setActiveTab("freelancers")}
+                className={`px-6 py-2 rounded-md text-sm font-medium transition-all ${activeTab === 'freelancers' ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:text-white'}`}
+              >
+                Freelancers
+              </button>
+            </div>
+
+            {/* View Controls */}
+            <div className="hidden md:flex items-center bg-gray-800/50 rounded-lg p-1 border border-white/5">
+              <button onClick={() => setViewMode('grid')} className={`p-1.5 rounded-md ${viewMode === 'grid' ? 'bg-gray-700 text-white' : 'text-gray-500'}`}>
+                <LayoutGrid className="w-4 h-4" />
+              </button>
+              <button onClick={() => setViewMode('list')} className={`p-1.5 rounded-md ${viewMode === 'list' ? 'bg-gray-700 text-white' : 'text-gray-500'}`}>
+                <List className="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -91,26 +85,11 @@ export default function BrowsePage() {
             ? projects.map(project => <ProjectCard key={project.id} project={project} viewMode={viewMode} />)
             : freelancers.map(freelancer => <FreelancerCard key={freelancer.id} freelancer={freelancer} viewMode={viewMode} />)
           }
-          
-          {/* Loading Skeletons */}
-          {isLoading && (
-            <>
-              <SkeletonCard viewMode={viewMode} />
-              <SkeletonCard viewMode={viewMode} />
-              <SkeletonCard viewMode={viewMode} />
-            </>
-          )}
         </div>
 
-        {/* --- Load More Button (Simulates Infinite Scroll) --- */}
-        <div className="text-center mt-10">
-          <button
-            onClick={loadMore}
-            disabled={isLoading}
-            className="bg-secondary hover:bg-secondary/90 text-white font-bold py-3 px-6 rounded-lg transition-all disabled:opacity-50"
-          >
-            {isLoading ? "Loading..." : "Load More"}
-          </button>
+        {/* --- Infinite Scroll Placeholder --- */}
+        <div className="h-20 w-full flex items-center justify-center mt-10">
+           <div className="w-2 h-2 rounded-full bg-indigo-500 animate-ping" />
         </div>
       </div>
     </div>

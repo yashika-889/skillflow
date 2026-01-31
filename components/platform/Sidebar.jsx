@@ -18,7 +18,6 @@ import "@/lib/flow.js";
 
 import FlowBalance from "@/components/flow/FlowBalance";
 
-// Navigation items
 const navItems = [
   { name: "Dashboard", icon: Home, href: "/dashboard" },
   { name: "Projects", icon: Briefcase, href: "/projects" },
@@ -30,25 +29,40 @@ const navItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
-
-  // Get user from Flow
   const [user, setUser] = useState({ loggedIn: false, addr: null });
+  const [mongoUser, setMongoUser] = useState("Not Connected");
+
   useEffect(() => {
-    return fcl.currentUser.subscribe(setUser);
+    // 1. Subscribe to Flow Wallet
+    const unsub = fcl.currentUser.subscribe(setUser);
+    
+    // 2. Initial Get Name from MongoDB Login
+    const getStoredName = () => {
+        const savedName = localStorage.getItem('skillflow_user_name');
+        setMongoUser(savedName || "Not Connected");
+    };
+    
+    getStoredName();
+
+    // 3. Listen for changes in other tabs/components
+    window.addEventListener('storage', getStoredName);
+
+    return () => {
+        unsub();
+        window.removeEventListener('storage', getStoredName);
+    };
   }, []);
 
-  // Use a static local avatar (in public/images)
   const avatarUrl = "/icons/user-profile.png";
 
-  // Display name (wallet or placeholder)
+  // Priority Logic: Flow Address > MongoDB Name > "Not Connected"
   const displayName = user.addr
     ? `${user.addr.substring(0, 6)}...${user.addr.substring(user.addr.length - 4)}`
-    : "Not Connected";
+    : mongoUser;
 
   return (
     <div className="flex flex-col h-full w-64 bg-[#0b0f19] border-r border-neutral-800">
-      
-      {/* Logo / Header */}
+      {/* Header */}
       <div className="flex items-center gap-2 px-6 py-5 border-b border-neutral-800">
         <Briefcase className="w-6 h-6 text-indigo-400" />
         <Link href="/" className="text-xl font-semibold text-white tracking-wide">
@@ -58,16 +72,20 @@ export default function Sidebar() {
 
       {/* User Section */}
       <div className="flex flex-col items-center mt-6">
-        <Image
-          src={avatarUrl}
-          alt="User Avatar"
-          width={64}
-          height={64}
-          className="h-16 w-16 rounded-full ring-2 ring-indigo-500/40 shadow-lg object-cover"
-        />
-        <span className="mt-3 text-sm font-medium text-white font-mono bg-neutral-900/70 px-3 py-1 rounded-md">
+        <div className="relative h-16 w-16">
+            <Image
+            src={avatarUrl}
+            alt="User Avatar"
+            fill
+            className="rounded-full ring-2 ring-indigo-500/40 shadow-lg object-cover"
+            />
+        </div>
+        
+        {/* Dynamic Name Display */}
+        <span className="mt-3 text-sm font-medium text-white font-mono bg-neutral-900/70 px-3 py-1 rounded-md border border-white/5">
           {displayName}
         </span>
+        
         <div className="mt-2 text-xs text-neutral-400">
           <FlowBalance />
         </div>
@@ -82,12 +100,11 @@ export default function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`
-                flex items-center px-4 py-2.5 rounded-lg text-sm font-medium transition-all
-                ${isActive
-                  ? "bg-indigo-600/90 text-white shadow-sm"
-                  : "text-neutral-300 hover:bg-neutral-800 hover:text-white"}
-              `}
+              className={`flex items-center px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                isActive 
+                  ? "bg-indigo-600/90 text-white shadow-sm" 
+                  : "text-neutral-300 hover:bg-neutral-800 hover:text-white"
+              }`}
             >
               <item.icon className="mr-3 h-5 w-5 opacity-80" />
               <span>{item.name}</span>
@@ -101,11 +118,11 @@ export default function Sidebar() {
         })}
       </nav>
 
-      {/* Create Project Button */}
+      {/* Action Footer */}
       <div className="px-4 py-5 border-t border-neutral-800">
         <Link
           href="/projects/new"
-          className="w-full bg-indigo-500 hover:bg-indigo-400 text-white font-semibold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md"
+          className="w-full bg-indigo-500 hover:bg-indigo-400 text-white font-semibold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md active:scale-95"
         >
           <Plus className="w-5 h-5" />
           Create Project
